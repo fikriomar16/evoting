@@ -10,6 +10,7 @@ use App\Models\Config;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -118,7 +119,9 @@ class DashboardController extends Controller
     public function resetUser()
     {
         if (auth()->guard('admin')->user()->is_super == 1) {
-            User::truncate();
+			DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+			User::truncate();
+			DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             return response()->json([
                 'success' => 'Data Pemilih Berhasil diReset'
             ]);
@@ -133,7 +136,13 @@ class DashboardController extends Controller
     public function resetCandidate()
     {
         if (auth()->guard('admin')->user()->is_super == 1) {
-            Candidate::truncate();
+			$foto = Candidate::where('foto', '!=', 'default.png')->get()->pluck('foto');
+			foreach ($foto as $ft) {
+				Storage::disk('public')->delete('candidate/'.$ft);
+			}
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+			Candidate::truncate();
+			DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             return response()->json([
                 'success' => 'Data Kandidat Berhasil diReset'
             ]);

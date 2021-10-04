@@ -92,7 +92,6 @@ $(document).ready(function(){
                     url: $(this).data('url'),
                     type: 'post',
                     success: function (data) {
-                        reloadUserTable();
                         if (data.success) {
                             miniNotif('success',data.success);
                         }
@@ -121,7 +120,6 @@ $(document).ready(function(){
                     url: $(this).data('url'),
                     type: 'post',
                     success: function (data) {
-                        reloadUserTable();
                         if (data.success) {
                             miniNotif('success',data.success);
                         }
@@ -150,7 +148,6 @@ $(document).ready(function(){
                     url: $(this).data('url'),
                     type: 'post',
                     success: function (data) {
-                        reloadUserTable();
                         if (data.success) {
                             miniNotif('success',data.success);
                         }
